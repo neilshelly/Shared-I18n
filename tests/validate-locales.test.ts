@@ -11,52 +11,60 @@ describe('validateLocales', () => {
     await mkdir(TEMP_DIR, { recursive: true });
   });
 
-  it('should pass validation for matching locales', async () => {
+  it('should pass validation for matching nested locales', async () => {
     await writeFile(
       join(TEMP_DIR, 'en.json'),
       JSON.stringify({
-        'common.hello': 'Hello',
-        'common.goodbye': 'Goodbye {{name}}'
+        common: {
+          hello: 'Hello',
+          goodbye: 'Goodbye {{name}}'
+        }
       })
     );
     await writeFile(
       join(TEMP_DIR, 'de-DE.json'),
       JSON.stringify({
-        'common.hello': 'Hallo',
-        'common.goodbye': 'Auf Wiedersehen {{name}}'
+        common: {
+          hello: 'Hallo',
+          goodbye: 'Auf Wiedersehen {{name}}'
+        }
       })
     );
 
     await expect(validateLocales(TEMP_DIR)).resolves.toBeUndefined();
   });
 
-  it('should fail when a locale has an extra key', async () => {
+  it('should fail when a locale has an extra key in nested structure', async () => {
     await writeFile(
       join(TEMP_DIR, 'en.json'),
-      JSON.stringify({ 'common.hello': 'Hello' })
+      JSON.stringify({ common: { hello: 'Hello' } })
     );
     await writeFile(
       join(TEMP_DIR, 'de-DE.json'),
       JSON.stringify({
-        'common.hello': 'Hallo',
-        'common.extra': 'Extra key'
+        common: {
+          hello: 'Hallo',
+          extra: 'Extra key'
+        }
       })
     );
 
     await expect(validateLocales(TEMP_DIR)).rejects.toThrow('Extra keys not in canonical');
   });
 
-  it('should fail when a locale is missing a key', async () => {
+  it('should fail when a locale is missing a key in nested structure', async () => {
     await writeFile(
       join(TEMP_DIR, 'en.json'),
       JSON.stringify({
-        'common.hello': 'Hello',
-        'common.goodbye': 'Goodbye'
+        common: {
+          hello: 'Hello',
+          goodbye: 'Goodbye'
+        }
       })
     );
     await writeFile(
       join(TEMP_DIR, 'de-DE.json'),
-      JSON.stringify({ 'common.hello': 'Hallo' })
+      JSON.stringify({ common: { hello: 'Hallo' } })
     );
 
     await expect(validateLocales(TEMP_DIR)).rejects.toThrow('Missing keys compared to canonical');
@@ -65,11 +73,11 @@ describe('validateLocales', () => {
   it('should fail when placeholder names differ', async () => {
     await writeFile(
       join(TEMP_DIR, 'en.json'),
-      JSON.stringify({ 'greeting': 'Hello {{name}}' })
+      JSON.stringify({ greeting: 'Hello {{name}}' })
     );
     await writeFile(
       join(TEMP_DIR, 'de-DE.json'),
-      JSON.stringify({ 'greeting': 'Hallo {{username}}' })
+      JSON.stringify({ greeting: 'Hallo {{username}}' })
     );
 
     await expect(validateLocales(TEMP_DIR)).rejects.toThrow('missing placeholders');
@@ -78,16 +86,16 @@ describe('validateLocales', () => {
   it('should fail on malformed placeholders', async () => {
     await writeFile(
       join(TEMP_DIR, 'en.json'),
-      JSON.stringify({ 'broken': 'Hello {{name' })
+      JSON.stringify({ broken: 'Hello {{name' })
     );
 
     await expect(validateLocales(TEMP_DIR)).rejects.toThrow('Malformed placeholder');
   });
 
-  it('should fail on non-string values', async () => {
+  it('should fail on non-string values in nested structure', async () => {
     await writeFile(
       join(TEMP_DIR, 'en.json'),
-      JSON.stringify({ 'bad': 123 })
+      JSON.stringify({ nested: { bad: 123 } })
     );
 
     await expect(validateLocales(TEMP_DIR)).rejects.toThrow('non-string value');

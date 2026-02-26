@@ -1,9 +1,19 @@
 {
-  "auth.signed_out": "Sie wurden abgemeldet",
-  "common.loading": "Lädt...",
-  "common.cancel": "Abbrechen",
-  "errors.generic.not_found": "Ressource nicht gefunden",
-  "errors.generic.request_error": "Bei der Verarbeitung Ihrer Anfrage ist ein Fehler aufgetreten",
-  "errors.generic.service_unavailable": "Dienst ist vorübergehend nicht verfügbar",
-  "errors.validation.min_length": "Muss mindestens {{min}} Zeichen lang sein"
+  "auth": {
+    "signed_out": "Sie sind abgemeldet. Bitte melden Sie sich an, um fortzufahren."
+  },
+  "errors": {
+    "generic": {
+      "not_found": "Die angeforderte Ressource konnte nicht gefunden werden.",
+      "request_error": "Die Anfrage konnte nicht verarbeitet werden. Bitte überprüfen Sie Ihre Eingabe.",
+      "service_unavailable": "Der Dienst ist vorübergehend nicht verfügbar. Bitte versuchen Sie es später noch einmal.",
+      "forbidden": "Sie haben keine Berechtigung, auf diese Ressource zuzugreifen.",
+      "unknown": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+    }
+  },
+  "common": {
+    "sign_in": "Anmelden",
+    "sign_out": "Abmelden",
+    "loading": "Lädt…"
+  }
 }

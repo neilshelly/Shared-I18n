@@ -1,9 +1,19 @@
 {
-  "auth.signed_out": "You have been signed out",
-  "common.loading": "Loading...",
-  "common.cancel": "Cancel",
-  "errors.generic.not_found": "Resource not found",
-  "errors.generic.request_error": "An error occurred while processing your request",
-  "errors.generic.service_unavailable": "Service is temporarily unavailable",
-  "errors.validation.min_length": "Must be at least {{min}} characters"
+  "auth": {
+    "signed_out": "You are signed out. Please sign in to continue."
+  },
+  "errors": {
+    "generic": {
+      "not_found": "The requested resource could not be found.",
+      "request_error": "The request could not be processed. Please check your input.",
+      "service_unavailable": "The service is temporarily unavailable. Please try again later.",
+      "forbidden": "You do not have permission to access this resource.",
+      "unknown": "An unexpected error occurred. Please try again."
+    }
+  },
+  "common": {
+    "sign_in": "Sign in",
+    "sign_out": "Sign out",
+    "loading": "Loading…"
+  }
 }

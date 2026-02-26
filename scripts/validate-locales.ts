@@ -28,22 +28,36 @@ function extractPlaceholders(value: string): Set<string> {
   return placeholders;
 }
 
+function flattenKeys(obj: any, prefix = ''): LocaleData {
+  if (typeof obj !== 'object' || obj === null || Array.isArray(obj)) {
+    throw new Error(`Invalid structure: Expected object, got ${typeof obj}`);
+  }
+
+  return Object.keys(obj).reduce((acc: LocaleData, k) => {
+    const pre = prefix.length ? prefix + '.' : '';
+    if (typeof obj[k] === 'object' && obj[k] !== null && !Array.isArray(obj[k])) {
+      Object.assign(acc, flattenKeys(obj[k], pre + k));
+    } else if (typeof obj[k] === 'string') {
+      acc[pre + k] = obj[k];
+    } else {
+      throw new Error(`Key "${pre + k}" has non-string value (found ${typeof obj[k]})`);
+    }
+    return acc;
+  }, {});
+}
+
 function validateStructure(data: unknown, filename: string): LocaleData {
   if (typeof data !== 'object' || data === null || Array.isArray(data)) {
-    throw new Error(`${filename}: Must be a flat key:string object`);
+    throw new Error(`${filename}: Must be a nested object structure`);
   }
   
-  const result: LocaleData = {};
+  const flattened = flattenKeys(data);
   
-  for (const [key, value] of Object.entries(data)) {
-    if (typeof value !== 'string') {
-      throw new Error(`${filename}: Key "${key}" has non-string value (found ${typeof value})`);
-    }
+  for (const [key, value] of Object.entries(flattened)) {
     extractPlaceholders(value);
-    result[key] = value;
   }
   
-  return result;
+  return flattened;
 }
 
 export async function validateLocales(basePath: string = 'src/locales'): Promise<void> {
@@ -71,8 +85,12 @@ export async function validateLocales(basePath: string = 'src/locales'): Promise
       throw new Error(`${file}: Invalid JSON - ${err instanceof Error ? err.message : String(err)}`);
     }
     
-    const validated = validateStructure(parsed, file);
-    locales.set(file, validated);
+    try {
+      const validated = validateStructure(parsed, file);
+      locales.set(file, validated);
+    } catch (err) {
+      throw new Error(`${file}: ${err instanceof Error ? err.message : String(err)}`);
+    }
   }
   
   const canonical = locales.get('en.json')!;
