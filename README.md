@@ -70,7 +70,7 @@ CI enforces:
 - Identical key sets across all locales
 - Placeholder consistency (same placeholder names per key)
 - JSON validity
-- No nested objects (flat key:string maps only)
+- Identical nesting shape (hierarchical object structure must match canonical exactly)
 
 ## Versioning
 

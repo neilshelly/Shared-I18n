@@ -101,6 +101,25 @@ describe('validateLocales', () => {
     await expect(validateLocales(TEMP_DIR)).rejects.toThrow('non-string value');
   });
 
+  it('should fail when nesting shape differs but flattened keys match', async () => {
+    await writeFile(
+      join(TEMP_DIR, 'en.json'),
+      JSON.stringify({
+        common: {
+          hello: 'Hello'
+        }
+      })
+    );
+    await writeFile(
+      join(TEMP_DIR, 'de-DE.json'),
+      JSON.stringify({
+        'common.hello': 'Hallo'
+      })
+    );
+
+    await expect(validateLocales(TEMP_DIR)).rejects.toThrow('Nesting shape mismatch');
+  });
+
   it('should fail on invalid JSON', async () => {
     await writeFile(join(TEMP_DIR, 'en.json'), '{ invalid json }');
 

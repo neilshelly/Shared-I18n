@@ -46,7 +46,18 @@ function flattenKeys(obj: any, prefix = ''): LocaleData {
   }, {});
 }
 
-function validateStructure(data: unknown, filename: string): LocaleData {
+function getStructure(obj: any): any {
+  if (typeof obj === 'object' && obj !== null && !Array.isArray(obj)) {
+    const result: any = {};
+    for (const key of Object.keys(obj).sort()) {
+      result[key] = getStructure(obj[key]);
+    }
+    return result;
+  }
+  return true;
+}
+
+function validateStructure(data: unknown, filename: string): { flattened: LocaleData, raw: any } {
   if (typeof data !== 'object' || data === null || Array.isArray(data)) {
     throw new Error(`${filename}: Must be a nested object structure`);
   }
@@ -57,7 +68,7 @@ function validateStructure(data: unknown, filename: string): LocaleData {
     extractPlaceholders(value);
   }
   
-  return flattened;
+  return { flattened, raw: data };
 }
 
 export async function validateLocales(basePath: string = 'src/locales'): Promise<void> {
@@ -72,7 +83,7 @@ export async function validateLocales(basePath: string = 'src/locales'): Promise
     throw new Error('Canonical locale file en.json not found');
   }
   
-  const locales: Map<string, LocaleData> = new Map();
+  const locales: Map<string, { flattened: LocaleData, raw: any }> = new Map();
   
   for (const file of localeFiles) {
     const filePath = join(basePath, file);
@@ -94,12 +105,13 @@ export async function validateLocales(basePath: string = 'src/locales'): Promise
   }
   
   const canonical = locales.get('en.json')!;
-  const canonicalKeys = new Set(Object.keys(canonical));
+  const canonicalKeys = new Set(Object.keys(canonical.flattened));
+  const canonicalStructure = JSON.stringify(getStructure(canonical.raw));
   
   for (const [file, data] of locales.entries()) {
     if (file === 'en.json') continue;
     
-    const localeKeys = new Set(Object.keys(data));
+    const localeKeys = new Set(Object.keys(data.flattened));
     
     const missing = [...canonicalKeys].filter(k => !localeKeys.has(k));
     if (missing.length > 0) {
@@ -111,9 +123,14 @@ export async function validateLocales(basePath: string = 'src/locales'): Promise
       throw new Error(`${file}: Extra keys not in canonical: ${extra.join(', ')}`);
     }
     
+    const localeStructure = JSON.stringify(getStructure(data.raw));
+    if (localeStructure !== canonicalStructure) {
+      throw new Error(`${file}: Nesting shape mismatch compared to canonical en.json`);
+    }
+    
     for (const key of canonicalKeys) {
-      const canonicalValue = canonical[key];
-      const localeValue = data[key];
+      const canonicalValue = canonical.flattened[key];
+      const localeValue = data.flattened[key];
       
       const canonicalPlaceholders = extractPlaceholders(canonicalValue);
       const localePlaceholders = extractPlaceholders(localeValue);
