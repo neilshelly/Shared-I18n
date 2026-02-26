@@ -136,3 +136,4 @@ Include:
   - If using git installs, require pinned version tags.
 - Consider pinning Node and TypeScript engine versions.
 - Add publish workflow validation to prevent releasing with failing validation.
+ 
