@@ -1,6 +1,6 @@
 # shared-i18n
 
-A TypeScript package repository providing shared translation catalogues and generated type contracts for the Web Suite.
+A TypeScript package repository providing shared translation catalogues and generated type contracts for this ecosystem.
 
 ## What This Is
 
@@ -132,9 +132,9 @@ const merged = { ...en, ...appTranslations };
 
 ## Ownership
 
-Platform team owns this package. Application teams may propose additions via PR.
+Maintained by the maintainers of this repository. Contributions are accepted via pull request.
 
-Removing or renaming keys requires architectural review.
+Removing or renaming keys requires maintainer review.
 
 ## Dependencies
 

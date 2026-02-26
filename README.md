@@ -1,6 +1,6 @@
 # shared-i18n
 
-Shared translation catalogue for the Web Suite.
+Shared translation catalogue for this ecosystem.
 
 ## Overview
 
@@ -90,9 +90,9 @@ Each client application must:
 
 ## Ownership
 
-Platform team owns this package. Application teams may propose additions via pull request.
+Maintained by the maintainers of this repository. Contributions are accepted via pull request.
 
-Removing or renaming keys requires architectural review.
+Removing or renaming keys requires maintainer review.
 
 ## Architecture
 

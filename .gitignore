@@ -9,3 +9,10 @@ vite.config.ts.*
 .env.local
 tests/fixtures/temp/
 src/generated/
+attached_assets/
+*.pdf
+*.docx
+*.pptx
+*.png
+*.jpg
+*.jpeg
