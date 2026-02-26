@@ -105,3 +105,14 @@ It does not provide:
 - Interpolation runtime
 
 Consumers must implement their own runtime i18n layer using these catalogues as data.
+
+## TODO: Language Variants Strategy
+
+Define and formalise standard behaviour for base languages and regional variants (e.g. `en`, `en-US`, `en-AU`).
+
+Clarify:
+- Whether `en` is the canonical base language for English.
+- Whether regional variants like `en-US` and `en-AU` are optional override files.
+- Structural guarantees required for variants (identical key sets, identical placeholder names).
+- Expected client-side fallback order (exact locale → base language → default locale).
+- That `shared-i18n` does not implement runtime fallback logic, only structural validation.
