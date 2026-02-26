@@ -36,6 +36,8 @@ const merged = { ...en, ...appTranslations };
 
 `en.json` is the canonical key set. All other locale files must contain exactly the same keys.
 
+**Important:** `TranslationKey` and `translationKeys` are generated automatically from `en.json`. **Manual union maintenance is prohibited.** Always regenerate types using `npm run gen`.
+
 ## Placeholder Rules
 
 Dynamic values must use `{{placeholder}}` syntax. All locales must use identical placeholder names for each key.
@@ -91,3 +93,15 @@ Each client application must:
 Platform team owns this package. Application teams may propose additions via pull request.
 
 Removing or renaming keys requires architectural review.
+
+## Architecture
+
+**This repository contains no runtime i18n logic beyond static catalogues and generated types.**
+
+It does not provide:
+- Translation functions (no `translate()` or `t()`)
+- Locale resolution or detection
+- Formatting helpers (dates, numbers, currency)
+- Interpolation runtime
+
+Consumers must implement their own runtime i18n layer using these catalogues as data.
