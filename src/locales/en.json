@@ -1,0 +1,9 @@
+{
+  "auth.signed_out": "You have been signed out",
+  "common.loading": "Loading...",
+  "common.cancel": "Cancel",
+  "errors.generic.not_found": "Resource not found",
+  "errors.generic.request_error": "An error occurred while processing your request",
+  "errors.generic.service_unavailable": "Service is temporarily unavailable",
+  "errors.validation.min_length": "Must be at least {{min}} characters"
+}

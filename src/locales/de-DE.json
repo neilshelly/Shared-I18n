@@ -1,0 +1,9 @@
+{
+  "auth.signed_out": "Sie wurden abgemeldet",
+  "common.loading": "Lädt...",
+  "common.cancel": "Abbrechen",
+  "errors.generic.not_found": "Ressource nicht gefunden",
+  "errors.generic.request_error": "Bei der Verarbeitung Ihrer Anfrage ist ein Fehler aufgetreten",
+  "errors.generic.service_unavailable": "Dienst ist vorübergehend nicht verfügbar",
+  "errors.validation.min_length": "Muss mindestens {{min}} Zeichen lang sein"
+}
