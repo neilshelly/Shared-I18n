@@ -116,3 +116,23 @@ Clarify:
 - Structural guarantees required for variants (identical key sets, identical placeholder names).
 - Expected client-side fallback order (exact locale → base language → default locale).
 - That `shared-i18n` does not implement runtime fallback logic, only structural validation.
+
+## TODO: Package Hardening
+
+Document future hardening work required before broader production use.
+
+Include:
+- Define explicit `package.json` exports map to prevent consumers from importing internal file paths.
+- Ensure locale subpath exports are stable (e.g. `shared-i18n/locales`).
+- Decide whether to export TS locale objects instead of raw JSON to avoid requiring `resolveJsonModule` in consumers.
+- Add CI pipeline (GitHub Actions) to run:
+  - `npm run validate`
+  - `npm test`
+  - `npm run build`
+- Enforce semantic versioning with tagged releases.
+- Define distribution strategy:
+  - Prefer publishing to npm (public or private) or GitHub Packages.
+  - Avoid installing from a moving branch.
+  - If using git installs, require pinned version tags.
+- Consider pinning Node and TypeScript engine versions.
+- Add publish workflow validation to prevent releasing with failing validation.
