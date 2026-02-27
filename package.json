@@ -28,12 +28,16 @@
     "build": "npm run gen && tsc",
     "test": "npm run gen && npm run validate && vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "npm run test && npm run build"
+    "prepublishOnly": "npm run test && npm run build",
+    "ci": "npm test && npm run build"
   },
   "devDependencies": {
     "@types/node": "^20.19.34",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vitest": "^1.6.1"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }
