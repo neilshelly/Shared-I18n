@@ -62,7 +62,22 @@ Example:
 - `npm run validate` - Validate all locale files against canonical
 - `npm run build` - Generate types and compile TypeScript
 - `npm test` - Run all validation and tests
+- `npm run ci` - Run full CI pipeline locally
 - `npm run prepublishOnly` - Full validation before publishing
+
+## CI
+
+**Local:**
+`npm run ci`
+
+What this runs:
+- `npm test` (includes locale validation)
+- `npm run build`
+
+**Notes:**
+- Locale validation fails CI if any locale keyset diverges from `en.json`
+- CI runs via `.github/workflows/ci.yml`
+- Node >= 20 is required
 
 ### Validation Rules
 
