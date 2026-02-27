@@ -12,11 +12,10 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./locales/*": "./src/locales/*"
+    "./locales/*": "./dist/locales/*"
   },
   "files": [
-    "dist/",
-    "src/locales/"
+    "dist/"
   ],
   "sideEffects": false,
   "publishConfig": {
@@ -25,11 +24,12 @@
   "scripts": {
     "gen": "tsx scripts/generate-translation-keys.ts",
     "validate": "tsx scripts/validate-locales.ts",
-    "build": "npm run gen && tsc",
+    "build": "npm run gen && tsc && mkdir -p dist/locales && cp -r src/locales/* dist/locales/",
     "test": "npm run gen && npm run validate && vitest run",
     "test:watch": "vitest",
-    "prepublishOnly": "npm run test && npm run build",
-    "ci": "npm test && npm run build"
+    "prepublishOnly": "npm run clean && npm run test && npm run build",
+    "ci": "npm test && npm run build",
+    "clean": "rm -rf dist/"
   },
   "devDependencies": {
     "@types/node": "^20.19.34",
