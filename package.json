@@ -12,10 +12,11 @@
       "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
-    "./locales/*": "./dist/locales/*"
+    "./locales/*": "./src/locales/*"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "src/locales/"
   ],
   "sideEffects": false,
   "publishConfig": {

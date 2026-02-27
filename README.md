@@ -151,4 +151,12 @@ Include:
   - If using git installs, require pinned version tags.
 - Consider pinning Node and TypeScript engine versions.
 - Add publish workflow validation to prevent releasing with failing validation.
+
+## TODO: Move to Published Artifact Mode
+
+- Remove `src/locales` from `files` when switching to published artifact.
+- Change `"./locales/*"` export to `"./dist/locales/*"`.
+- Require consumers to import `TranslationKey` from package root.
+- Remove LeafPaths-based key derivation in client apps.
+- Switch consumers from git ref to semver dependency.
  
